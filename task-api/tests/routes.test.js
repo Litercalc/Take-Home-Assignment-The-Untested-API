@@ -210,3 +210,36 @@ describe('PATCH /tasks/:id/complete', () => {
     expect(res.body.priority).toBe('high'); // Fails, it is currently hardcoded
   });
 });
+
+describe('PATCH /tasks/:id/assign', () => {
+  it('assigns a task to an assignee', async () => {
+    const created = await request(app).post('/tasks').send({ title: 'sample task' });
+    const res = await request(app).patch(`/tasks/${created.body.id}/assign`).send({ assignee: 'John Doe' });
+    expect(res.status).toBe(200);
+    expect(res.body.assignee).toBe('John Doe');
+  });
+
+  it('returns 404 for invalid id', async () => {
+    const res = await request(app).patch('/tasks/random/assign').send({ assignee: 'John Doe' });
+    expect(res.status).toBe(404);
+  });
+
+  it('returns 400 for missing assignee', async () => {
+    const created = await request(app).post('/tasks').send({ title: 'sample task' });
+    const res = await request(app).patch(`/tasks/${created.body.id}/assign`).send({});
+    expect(res.status).toBe(400);
+  });
+
+  it('returns 400 for empty string assignee', async () => {
+    const created = await request(app).post('/tasks').send({ title: 'sample task' });
+    const res = await request(app).patch(`/tasks/${created.body.id}/assign`).send({ assignee: '' });
+    expect(res.status).toBe(400);
+  });
+
+  it('returns 404 when trying to assign a completed task', async () => {
+    const created = await request(app).post('/tasks').send({ title: 'sample task' });
+    await request(app).patch(`/tasks/${created.body.id}/complete`);
+    const res = await request(app).patch(`/tasks/${created.body.id}/assign`).send({ assignee: 'John Doe' });
+    expect(res.status).toBe(404);
+  });
+});

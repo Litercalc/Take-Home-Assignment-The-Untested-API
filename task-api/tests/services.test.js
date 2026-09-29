@@ -186,3 +186,21 @@ describe('getStats', () => {
     expect(finishedTasks.overdue).toBe(0);
   });
 });
+
+describe('assignTask', () => {
+  it('assigns a task to an assignee', () => {
+    const task = taskService.create({ title: 'sample task' });
+    const assigned = taskService.assignTask(task.id, 'John Doe');
+    expect(assigned.assignee).toBe('John Doe');
+  });
+
+  it('returns null when trying to assign a non-existent/invalid task', () => {
+    expect(taskService.assignTask('invalid', 'John Doe')).toBeNull();
+  });
+
+  it('returns null when trying to assign a completed task', () => {
+    const task = taskService.create({ title: 'sample task' });
+    taskService.completeTask(task.id);
+    expect(taskService.assignTask(task.id, 'John Doe')).toBeNull();
+  });
+});

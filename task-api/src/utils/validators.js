@@ -32,5 +32,12 @@ const validateUpdateTask = (body) => {
   }
   return null;
 };
+//-------------------
+const validateAssignTask = (body) => {
+  if (!body.assignee || typeof body.assignee !== 'string' || body.assignee.trim() === '' || body.assignee.trim().length === 0) {
+    return 'assignee is required and must be a non-empty string';
+  }
+  return null;
+};
 
-module.exports = { validateCreateTask, validateUpdateTask };
+module.exports = { validateCreateTask, validateUpdateTask, validateAssignTask };

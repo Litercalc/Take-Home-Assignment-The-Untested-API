@@ -13,6 +13,9 @@ router.get('/', (req, res) => {
 
   if (status) {
     const tasks = taskService.getByStatus(status);
+    if (!tasks) {
+      return res.status(400).json({ error: 'Invalid status' });
+    }
     return res.json(tasks);
   }
 

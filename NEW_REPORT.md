@@ -46,6 +46,22 @@ Tests:       8 failed, 40 passed, 48 total
 Snapshots:   0 total
 Time:        0.534 s, estimated 1 s
 
-# Summary
+# After bug fixes
 
-- All new unit and integrated tests created for this endpoint/service pass. Originally it should have 9 failed tests (bugs), but it was required to fix one bug which was mentioned in the previous report and commented in the service file.
+ile             | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-----------------|---------|----------|---------|---------|-------------------
+All files        |   95.67 |    90.81 |   93.33 |   95.23 |                   
+ src             |   69.23 |       75 |       0 |   69.23 |                   
+  app.js         |   69.23 |       75 |       0 |   69.23 | 10-11,17-18       
+ src/routes      |     100 |     92.3 |     100 |     100 |                   
+  tasks.js       |     100 |     92.3 |     100 |     100 | 23-24             
+ src/services    |     100 |    95.65 |     100 |     100 |                   
+  taskService.js |     100 |    95.65 |     100 |     100 | 23                
+ src/utils       |   89.65 |    88.88 |     100 |   89.65 |                   
+  validators.js  |   89.65 |    88.88 |     100 |   89.65 | 27,34,37          
+-----------------|---------|----------|---------|---------|-------------------
+
+Test Suites: 2 passed, 2 total
+Tests:       56 passed, 56 total
+Snapshots:   0 total
+Time:        0.654 s, estimated 1 s

@@ -1,12 +1,13 @@
 const { v4: uuidv4 } = require('uuid');
 
 let tasks = [];
+const VALID_STATUSES = ['todo', 'in_progress', 'done'];
 
 const getAll = () => [...tasks];
 
 const findById = (id) => tasks.find((t) => t.id === id);
 
-const getByStatus = (status) => tasks.filter((t) => t.status.includes(status));
+const getByStatus = (status) => VALID_STATUSES.includes(status) ? tasks.filter((t) => t.status === status) : null; //Fixed: Compare them directly before filtering
 
 const getPaginated = (page, limit) => {
   const offset = (page - 1) * limit; //Fixed: Calculated offset by subtracting 1 from page first to match the expected data
@@ -66,7 +67,7 @@ const completeTask = (id) => {
 
   const updated = {
     ...task,
-    priority: 'medium',
+    //Fixed: Removed priority field update 
     status: 'done',
     completedAt: new Date().toISOString(),
   };

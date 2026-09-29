@@ -115,13 +115,13 @@ describe('GET /tasks?status=', () => {
   it('returns empty array for invalid status', async () => {
     await request(app).post('/tasks').send({ title: 'sample task' });
     const res = await request(app).get('/tasks?status=randomstat');
-    expect(res.status).not.toBe(200); //Shouldnt work but currently it returns an empty array because of missing checks
+    expect(res.status).not.toBe(200); //Fixed - Shouldnt work but currently it returns an empty array because of missing checks
   });
 
   it('partial status string still matches to other valid status', async () => {
     await request(app).post('/tasks').send({ title: 'a task', status: 'todo' });
     const res = await request(app).get('/tasks?status=tod');
-    expect(res.body).toHaveLength(0); // Shouldnt work neither but currently does because the usage of includes() in the service
+    expect(res.status).toBe(400); //Fixed - Shouldnt work neither but currently does because the usage of includes() in the service
   });
 });
 
@@ -207,7 +207,7 @@ describe('PATCH /tasks/:id/complete', () => {
   it('completing a task does not affect the priority field', async () => {
     const created = await request(app).post('/tasks').send({ title: 'urgent', priority: 'high' });
     const res = await request(app).patch(`/tasks/${created.body.id}/complete`);
-    expect(res.body.priority).toBe('high'); // Fails, it is currently hardcoded
+    expect(res.body.priority).toBe('high'); //Fixed - Fails, it is currently hardcoded
   });
 });
 

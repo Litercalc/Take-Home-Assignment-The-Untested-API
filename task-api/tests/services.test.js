@@ -113,7 +113,7 @@ describe('completeTask', () => {
   it('other fields shouldnt be affected when completing a task', () => {
     const task = taskService.create({ title: 'sample task', priority: 'high' });
     const completed = taskService.completeTask(task.id);
-    expect(completed.priority).toBe('high'); //bug - its hardcoded to be set to medium every time the function is called succesfully
+    expect(completed.priority).toBe('high'); //fixed - its hardcoded to be set to medium every time the function is called succesfully
   });
 });
 
@@ -132,7 +132,7 @@ describe('getByStatus', () => {
   it('should not return if its an invalid status', () => {
     taskService.create({ title: 'a', status: 'todo' });
     const result = taskService.getByStatus('tod');
-    expect(result).toHaveLength(0); //shouldn't return anything since tod should be invalid
+    expect(result).toBeNull(); //fixed - shouldn't return anything since tod should be invalid
   });
 });
 
@@ -154,7 +154,7 @@ describe('getPaginated', () => {
   it('should return first 2 items for page 1 limit 2', () => {
     const result = taskService.getPaginated(1, 2);
     expect(result[0].title).toBe('1');
-    expect(result[1].title).toBe('2');  //returns the second batch despite being on page 1
+    expect(result[1].title).toBe('2');  //Fixed - returns the second batch despite being on page 1
   });
 });
 
